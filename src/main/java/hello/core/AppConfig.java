@@ -19,12 +19,14 @@ public class AppConfig {
     //생성자 주입 MemberServiceImpl은 이제 추상화(인터페이스)에만 의존한다.
     @Bean //Spring 컨테이너에 등록됨
     public MemberService memberService() {
+        System.out.println("Call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
     //생성자 주입 OrderServiceImpl은 이제 추상화(인터페이스)에만 의존한다.
     @Bean
     public OrderService orderService() {
+        System.out.println("Call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
@@ -33,6 +35,7 @@ public class AppConfig {
     //이제 역할과 구현 클래스가 한 눈에 들어온다.
     @Bean
     public MemberRepository memberRepository() {
+        System.out.println("Call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
