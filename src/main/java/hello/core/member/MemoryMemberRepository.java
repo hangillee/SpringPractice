@@ -1,9 +1,12 @@
 package hello.core.member;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
 //MemberRepository 인터페이스(역할)의 구현체
+@Component
 public class MemoryMemberRepository implements MemberRepository {
     //회원의 정보를 로컬 메모리에 저장할 때 사용할 Map 자료형
     private static Map<Long, Member> store = new HashMap<>();

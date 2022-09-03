@@ -1,21 +1,29 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
+@Component
+//@RequiredArgsConstructor //final이 붙은 field의 생성자를 생성해줌 (Lombok의 어노테이션)
 public class OrderServiceImpl implements OrderService {
-    private final MemberRepository memberRepository;
     //DiscountPolicy라는 추상 역할 뿐만 아니라 구현체인 Fix, RateDiscountPolicy까지 의존한다. (알고 있다)
     //이는 의존관계 역전 원칙, DIP를 준수하지 못한 것이다.
     //또한 구현체를 갈아 끼울 때 OrderServiceImpl(클라이언트)의 코드를 수정했으므로 개방 폐쇄 원칙, OCP 역시 준수하지 못했다.
     //private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
     //private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
-    private DiscountPolicy discountPolicy;
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
